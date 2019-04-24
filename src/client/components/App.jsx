@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { Router } from '@reach/router'
+import { useAuth } from '../auth'
 import styled from 'styled-components'
 import '../styles/app.scss'
 
@@ -21,9 +22,14 @@ const CenteredDiv = styled.div`
 `
 
 export default function App() {
+  let { user, isLoggedIn } = useAuth()
+
   return (
     <CenteredDiv>
       Welcome to the Arundo <em>Women's 2019 Hackathon</em>
+      <pre>
+        { JSON.stringify({ isLoggedIn }, null, 2) }
+      </pre>
     </CenteredDiv>
   )
 }
