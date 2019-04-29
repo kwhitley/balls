@@ -14,8 +14,8 @@ const StyledCanvas = styled.canvas`
   height: 100%;
 `
 
-const SPEED = 5
-const GRAVITY_SPEED = 0.01
+const SPEED = 0.001
+const GRAVITY_SPEED = 0.02
 const REBOUND_DAMPING = 0.8
 
 const getContext = ref => ref.current && ref.current.getContext('2d')
@@ -35,10 +35,10 @@ class Ball {
     this.y += this.dy
 
     this.rebound({ height, width })
-    this.detectCollisions(balls)
+    // this.detectCollisions(balls)
 
-    this.dx += this.gx
-    this.dy += this.gy
+    // this.dx += this.gx
+    // this.dy += this.gy
   }
 
   detectCollisions(balls) {
@@ -54,10 +54,8 @@ class Ball {
         this.color = ball.color = [255,0,0]
         this.dx = -this.dx
         this.dy = -this.dy
-
         ball.dx = -ball.dx
         ball.dy = -ball.dy
-
         this.x += this.dx
         this.y += this.dy
       }
@@ -67,12 +65,12 @@ class Ball {
   rebound({ height, width }) {
     let { x, y, dx, dy, radius } = this
 
-    if (x <= radius || x >= (width - radius)) {
+    if (x * width <= radius || x * width >= (width - radius)) {
       this.dx = -dx * REBOUND_DAMPING
       this.x += this.dx
     }
 
-    if (y <= radius || y >= (height - radius)) {
+    if (y * height <= radius || y * height >= (height - radius)) {
       this.dy = -dy * REBOUND_DAMPING
       this.y += this.dy
     }
@@ -80,10 +78,12 @@ class Ball {
 }
 
 const splash = (ctx, location) => {
+  let { height, width } = ctx.canvas
+
   const radius = Math.random() * 15 + 5
   const weight = Math.random() * 0.8 + 0.2
-  const x = location.clientX
-  const y = location.clientY
+  const x = location.clientX / width
+  const y = location.clientY / height
   const dx = (Math.random() * 2 - 1) * SPEED
   const dy = (Math.random() * 2 - 1) * SPEED
   const gx = (Math.random() * 2 - 1) * GRAVITY_SPEED
@@ -102,7 +102,7 @@ const renderFrame = (ctx) => {
 
   for (var ball of balls) {
     ctx.beginPath()
-    ctx.arc(ball.x, ball.y, ball.radius, 0 Math.PI*2, false)
+    ctx.arc(ball.x * width, ball.y * height, ball.radius, 0 Math.PI*2, false)
     ctx.strokeStyle = `rgba(${ball.color.join(',')}, ${ball.weight})`
     ctx.stroke()
     ctx.closePath()
