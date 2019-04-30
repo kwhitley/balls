@@ -14,7 +14,7 @@ const StyledCanvas = styled.canvas`
   height: 100%;
 `
 
-const SPEED = 0.001
+const SPEED = 0.0001
 const GRAVITY_SPEED = 0.02
 const REBOUND_DAMPING = 0.8
 
@@ -35,30 +35,48 @@ class Ball {
     this.y += this.dy
 
     this.rebound({ height, width })
-    // this.detectCollisions(balls)
+    this.detectCollisions({ height, width, balls })
 
     // this.dx += this.gx
     // this.dy += this.gy
   }
 
-  detectCollisions(balls) {
+
+
+  detectCollisions({ height, width, balls }) {
     for (var ball of balls) {
       if (ball === this) continue
-      let deltaX = ball.x - this.x
-      let deltaY = ball.y - this.y
-      let allowedDistance = ball.radius + this.radius
+      let deltaX = (ball.x - this.x) * width
+      let deltaY = (ball.y - this.y) * height
 
+      let allowedDistance = ball.radius + this.radius
+      let gravityDistance = allowedDistance * 20
       let actualDistance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2))
 
-      if (actualDistance < allowedDistance) {
-        this.color = ball.color = [255,0,0]
-        this.dx = -this.dx
-        this.dy = -this.dy
-        ball.dx = -ball.dx
-        ball.dy = -ball.dy
-        this.x += this.dx
-        this.y += this.dy
+      // inter-ball gravity effects these balls
+      if (actualDistance < gravityDistance && actualDistance > allowedDistance) {
+        // console.log('nearby ball, add intra-ball gravity', 'actual distance', actualDistance)
+        let partialDeltaX = deltaX / 100000000 * ball.radius / this.radius
+        let partialDeltaY = deltaY / 100000000 * ball.radius / this.radius
+        this.dx += partialDeltaX
+        this.dy += partialDeltaY
+        // console.log({
+        //   partialDeltaX,
+        //   partialDeltaY,
+        //   dx: this.dx,
+        //   dy: this.dy,
+        // })
       }
+
+      // if (actualDistance < allowedDistance) {
+      //   this.color = ball.color = [255,0,0]
+      //   this.dx = -this.dx
+      //   this.dy = -this.dy
+      //   ball.dx = -ball.dx
+      //   ball.dy = -ball.dy
+      //   this.x += this.dx
+      //   this.y += this.dy
+      // }
     }
   }
 
@@ -81,7 +99,7 @@ const splash = (ctx, location) => {
   let { height, width } = ctx.canvas
 
   const radius = Math.random() * 15 + 5
-  const weight = Math.random() * 0.8 + 0.2
+  const weight = Math.random() * 0.9 + 0.05
   const x = location.clientX / width
   const y = location.clientY / height
   const dx = (Math.random() * 2 - 1) * SPEED
