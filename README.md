@@ -1,5 +1,3 @@
-Arundo Women's 2019 Hackathon Starter Kit
-
 # Requirements
 - [Node (current, v10+)](https://nodejs.org/en/download/current/)
 - [Yarn](https://yarnpkg.com/lang/en/docs/install/#mac-stable)

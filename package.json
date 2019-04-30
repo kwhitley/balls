@@ -1,24 +1,23 @@
 {
-  "name": "@arundo/hackathon-starter",
-  "version": "1.11.2",
-  "description": "Starter environment for Women's 2019 Hackathon",
+  "name": "@kwhitley/balls",
+  "version": "0.1.0",
+  "description": "Simple physics simulation",
   "main": "core.js",
   "target": "esnext",
-  "title": "Women's Hackathon 2019 Starter",
+  "title": "A simple physics simulation",
   "scripts": {
     "start": "node dist/server.js",
     "dev": "node .build/dev",
     "build": "node .build/build"
   },
-  "author": "Kevin R. Whitley <kevin.whitley@arundo.com>",
+  "author": "Kevin R. Whitley <krwhitley@gmail.com>",
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "https://github.com/arundo/react-shell.git"
+    "url": "https://github.com/kwhitley/balls.git"
   },
   "bugs": {
-    "url": "https://github.com/arundo/react-shell/issues",
-    "email": "support@arundo.com"
+    "url": "https://github.com/kwhitley/balls/issues"
   },
   "dependencies": {
     "@kwhitley/use-store": "^1.2.4",
