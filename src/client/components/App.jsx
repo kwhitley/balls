@@ -52,14 +52,15 @@ class Ball {
       let allowedDistance = ball.radius + this.radius
       let gravityDistance = allowedDistance * 20
       let actualDistance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2))
+      let gravityImpact = actualDistance / gravityDistance
 
       // inter-ball gravity effects these balls
       if (actualDistance < gravityDistance && actualDistance > allowedDistance) {
         // console.log('nearby ball, add intra-ball gravity', 'actual distance', actualDistance)
-        let partialDeltaX = deltaX / 100000000 * ball.radius / this.radius
-        let partialDeltaY = deltaY / 100000000 * ball.radius / this.radius
-        this.dx += partialDeltaX
+        let partialDeltaX = deltaX / 100000000 * ball.radius / this.radius * gravityImpact
+        let partialDeltaY = deltaY / 100000000 * ball.radius / this.radius * gravityImpact
         this.dy += partialDeltaY
+        this.dx += partialDeltaX
         // console.log({
         //   partialDeltaX,
         //   partialDeltaY,
@@ -99,7 +100,7 @@ const splash = (ctx, location) => {
   let { height, width } = ctx.canvas
 
   const radius = Math.random() * 15 + 5
-  const weight = Math.random() * 0.9 + 0.05
+  const weight = Math.random() * 0.1 + 0.05
   const x = location.clientX / width
   const y = location.clientY / height
   const dx = (Math.random() * 2 - 1) * SPEED
@@ -116,7 +117,7 @@ const renderFrame = (ctx) => {
   if (!ctx) return false // breakout for context switch on hot-reload
 
   let { height, width } = ctx.canvas
-  ctx.clearRect(0, 0, width, height)
+  // ctx.clearRect(0, 0, width, height)
 
   for (var ball of balls) {
     ctx.beginPath()
