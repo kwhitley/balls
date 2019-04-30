@@ -12,5 +12,7 @@ yarn dev
 ```
 
 # Getting Started
-- For client side, effective entry point is `src/client/components/App.jsx`
-- For server side, effective entry point is `src/server/index.js`
+Load `http://localhost:3000` in your browser, then click on the screen wherever you want to spawn random balls.
+
+# Example Render
+![image](https://user-images.githubusercontent.com/865416/56975516-9c86d980-6b36-11e9-964d-224f5f3585e4.png)
